@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvis </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="f">
+    <div class="yes" id="historyPanel">
+        <button id="newChatBtn" class="main-btn">+ Новы чат</button>
+        <div style="display: flex; justify-content: space-between; padding: 10px;">
+            <span style="color: #666; font-size: 0.8rem;">История</span>
+            <span id="clearBtn" style="color: #ff4444; font-size: 0.8rem; cursor: pointer;">удалить всё</span>
+        </div>
+        <div id="chatsList"></div>
+    </div>
+
+    <div class="chat-area">
+      <img src="logo.png" alt="Logo" class="logo">
+      <div id="response"></div>
+
+ <div class="bola">
+    <div id="imagePreviewContainer" style="display:none; position:absolute; bottom:70px; left:20px; background:#222; padding:5px; border-radius:10px; border:1px solid #0066cc;">
+        <img id="imagePreview" src="" style="height:50px; border-radius:5px;">
+        <span id="removePreview" style="color:red; cursor:pointer; margin-left:5px; font-weight:bold;">×</span>
+    </div>
+
+    <input type="file" id="fileInput" style="display:none" accept="image/*">
+    <button id="attachBtn" style="position: static; background: none; border: none; font-size: 1.5rem; cursor: pointer; width: 45px; color: #fff;">[+]</button>
+    
+    <input type="text" id="userInput" class="input" placeholder="Напиши гению или скинь фото..." autocomplete="off">
+    <img src="голос.png" alt="Mic" id="micIcon" height="40px">
+    <button id="sendBtn">Send</button>
+</div>
+    </div>
+  </div>
+  <script src="home.js"></script>
+</body>
+</html>
