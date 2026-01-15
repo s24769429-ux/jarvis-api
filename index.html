@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jarvis </title>
     <link rel="stylesheet" href="style.css">
-</head>
+<link rel="shortcut icon" href="/logo.png">
 <body>
   <div class="f">
     <div class="yes" id="historyPanel">
@@ -17,15 +17,13 @@
         <div id="chatsList"></div>
     </div>
 
-    <div class="chat-area">
-      <img src="logo.png" alt="Logo" class="logo">
-      <div id="response"></div>
-
- <div class="bola">
-    <div id="imagePreviewContainer" style="display:none; position:absolute; bottom:70px; left:20px; background:#222; padding:5px; border-radius:10px; border:1px solid #0066cc;">
-        <img id="imagePreview" src="" style="height:50px; border-radius:5px;">
-        <span id="removePreview" style="color:red; cursor:pointer; margin-left:5px; font-weight:bold;">×</span>
-    </div>
+  <div class="chat-area">
+  <button id="mobileMenuBtn" style="display:none; position:fixed; top:10px; left:10px; z-index:1001; background:#0066cc; color:white; border:none; border-radius:5px; padding:5px 10px;">☰ История</button>
+  
+  <div class="story">
+    <img src="logo.png" alt="AI Logo" class="logo" id="logoImg">
+  </div>
+  ...
 
     <input type="file" id="fileInput" style="display:none" accept="image/*">
     <button id="attachBtn" style="position: static; background: none; border: none; font-size: 1.5rem; cursor: pointer; width: 45px; color: #fff;">[+]</button>

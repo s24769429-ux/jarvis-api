@@ -211,14 +211,22 @@ body {
 
 
 
-/* АДАПТИВНОСТЬ */
 @media (max-width: 768px) {
-    .yes { display: none; }
-    .chat-area { padding: 10px; }
-    #response { max-width: 100%; }
-    .bola { max-width: 100%; }
+    #mobileMenuBtn { display: block !important; }
+    
+    .yes {
+        position: fixed;
+        left: -280px; 
+        top: 0;
+        height: 100%;
+        z-index: 1000;
+        transition: 0.3s;
+    }
+    
+    .yes.mobile-open {
+        left: 0; 
+    }
 }
-
 /* Удали старые стили для картинок и замени на эти */
 .chat-image, .user-image {
     width: 100%;

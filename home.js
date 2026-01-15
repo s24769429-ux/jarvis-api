@@ -165,3 +165,16 @@ window.addEventListener('load', () => {
     if (allChats.length === 0) createNewChat();
     else { renderSidebar(); renderMessages(); }
 });
+
+const mobileBtn = document.getElementById('mobileMenuBtn');
+const historySidebar = document.getElementById('historyPanel');
+
+if(mobileBtn) {
+    mobileBtn.onclick = (e) => {
+        e.stopPropagation();
+        historySidebar.classList.toggle('mobile-open');
+    };
+}
+document.querySelector('.chat-area').addEventListener('click', () => {
+    historySidebar.classList.remove('mobile-open');
+});
