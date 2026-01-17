@@ -3,178 +3,128 @@ window.addEventListener('load', () => {
     const sendBtn = document.getElementById('sendBtn');
     const responseDiv = document.getElementById('response');
     const chatsList = document.getElementById('chatsList');
-    const newChatBtn = document.getElementById('newChatBtn');
+    const modelToggle = document.getElementById('modelToggle');
+    const modelPopup = document.getElementById('modelPopup');
+    const fileInput = document.getElementById('fileInput');
+    const attachBtn = document.getElementById('attachBtn');
 
     let allChats = JSON.parse(localStorage.getItem('ai_all_chats')) || [];
     let currentChatId = localStorage.getItem('current_chat_id') || null;
+    let selectedModel = "openai";
 
-    // --- СИСТЕМА СОХРАНЕНИЯ ---
+    // ПЕРЕКЛЮЧАТЕЛЬ МОДЕЛЕЙ
+    modelToggle.onclick = (e) => { e.stopPropagation(); modelPopup.classList.toggle('active'); };
+    document.querySelectorAll('.popup-item').forEach(item => {
+        item.onclick = () => {
+            selectedModel = item.dataset.model;
+            modelToggle.innerHTML = `${item.dataset.icon} ${item.dataset.name}`;
+            document.querySelectorAll('.popup-item').forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            modelPopup.classList.remove('active');
+        };
+    });
+    document.body.onclick = () => { modelPopup.classList.remove('active'); document.getElementById('sidebar').classList.remove('open'); };
+
+    // ФОТО
+    attachBtn.onclick = () => fileInput.click();
+
     function saveAndRefresh() {
         localStorage.setItem('ai_all_chats', JSON.stringify(allChats));
         localStorage.setItem('current_chat_id', currentChatId);
-        renderSidebar();
-        renderMessages();
+        renderSidebar(); renderMessages();
     }
 
     function createNewChat() {
         const newId = Date.now().toString();
-        allChats.unshift({ id: newId, title: "Yangi chat / Новый чат", messages: [] });
+        allChats.unshift({ id: newId, title: "Новый чат QIRAI", messages: [] });
         currentChatId = newId;
         saveAndRefresh();
     }
 
     function renderSidebar() {
-        if (!chatsList) return;
         chatsList.innerHTML = "";
         allChats.forEach(chat => {
             const item = document.createElement('div');
             item.className = `history-item ${chat.id === currentChatId ? 'active' : ''}`;
-            
-            const titleSpan = document.createElement('span');
-            titleSpan.innerText = chat.title.length > 20 ? chat.title.substring(0, 20) + "..." : chat.title;
-            
-            // Кнопка удаления чата
-            const delBtn = document.createElement('button');
-            delBtn.innerHTML = "&times;";
-            delBtn.style.cssText = "background:none; border:none; color:red; font-size:1.2rem; cursor:pointer; margin-left:10px;";
-            delBtn.onclick = (e) => {
-                e.stopPropagation();
-                if(confirm("Удалить этот чат?")) {
-                    allChats = allChats.filter(c => c.id !== chat.id);
-                    if(currentChatId === chat.id) currentChatId = allChats.length > 0 ? allChats[0].id : null;
-                    saveAndRefresh();
-                    if(!currentChatId) createNewChat();
-                }
-            };
-
+            item.innerHTML = `<span>${chat.title}</span><span style="color:red;font-weight:bold" onclick="event.stopPropagation(); deleteChat('${chat.id}')">×</span>`;
             item.onclick = () => { currentChatId = chat.id; saveAndRefresh(); };
-            item.appendChild(titleSpan);
-            item.appendChild(delBtn);
             chatsList.appendChild(item);
         });
     }
 
+    window.deleteChat = (id) => {
+        allChats = allChats.filter(c => c.id !== id);
+        currentChatId = allChats.length > 0 ? allChats[0].id : null;
+        saveAndRefresh(); if (!currentChatId) createNewChat();
+    };
+
     function renderMessages() {
-        if (!responseDiv) return;
         responseDiv.innerHTML = "";
         const chat = allChats.find(c => c.id === currentChatId);
-        if (chat) {
-            chat.messages.forEach(msg => showOnScreen(msg.text, msg.type, msg.isImage));
-        }
+        if (chat) chat.messages.forEach(msg => {
+            const m = document.createElement('div');
+            m.className = `message-bubble ${msg.type === 'user' ? 'user-msg' : 'ai-msg'}`;
+            if (msg.isImage) {
+                m.innerHTML = `<b>QIRAI</b><br><img src="${msg.text}" class="chat-img">`;
+            } else {
+                m.innerHTML = `<b>${msg.type==='user'?'Нурилло':'QIRAI Premium'}</b><br><span>${msg.text}</span>`;
+            }
+            responseDiv.appendChild(m);
+        });
+        responseDiv.scrollTop = responseDiv.scrollHeight;
     }
 
-    // --- ПОКАЗ СООБЩЕНИЙ (Использует твой CSS) ---
-    function showOnScreen(text, type, isImage = false) {
-        const messageBubble = document.createElement('div');
-        messageBubble.classList.add('message-bubble');
-        
-        // Назначаем класс (справа для тебя, слева для ИИ)
-        if (type === 'user') {
-            messageBubble.classList.add('user-msg');
-        } else {
-            messageBubble.classList.add('ai-msg');
-        }
-
-        const label = document.createElement('b');
-        label.style.fontSize = "0.7rem";
-        label.style.opacity = "0.5";
-        label.style.marginBottom = "5px";
-        label.style.display = "block";
-        label.innerText = type === 'user' ? "Вы" : "Jarvis";
-        messageBubble.appendChild(label);
-
-        if (isImage) {
-            const img = document.createElement('img');
-            img.src = text;
-            img.className = "chat-image";
-            messageBubble.appendChild(img);
-        } else {
-            const content = document.createElement('span');
-            content.innerText = text;
-            messageBubble.appendChild(content);
-        }
-        
-        responseDiv.prepend(messageBubble);
-    }
-
-    // --- МОЗГИ ГЕНИЯ ---
     async function askAI(text) {
         const loadingMsg = document.createElement('div');
-        loadingMsg.innerText = "Jarvis думает...";
+        loadingMsg.innerText = "QIRAI думает...";
         loadingMsg.className = "message-bubble ai-msg";
-        responseDiv.prepend(loadingMsg);
+        responseDiv.appendChild(loadingMsg);
+        responseDiv.scrollTop = responseDiv.scrollHeight;
 
-        const lowerText = text.toLowerCase();
-        const isDraw = lowerText.includes("нарисуй") || lowerText.includes("рисуй") || lowerText.includes("chiz");
+        const low = text.toLowerCase();
+        const isDraw = ["нарисуй", "рисуй", "rasm", "chiz"].some(w => low.includes(w));
 
         try {
-            // Если просим рисовать
             if (isDraw) {
-                // Сначала просим ИИ сделать крутой промпт на английском (это секрет успеха)
-                const promptRes = await fetch("https://text.pollinations.ai/" + encodeURIComponent("Detailed 8k image prompt in English for: " + text + ". No intro, just prompt."));
-                const englishPrompt = await promptRes.text();
-                
-                const imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(englishPrompt)}?width=1024&height=1024&nologo=true&model=flux`;
-                
+                // ШАГ 1: ГЕНИАЛЬНЫЙ ПРОМПТ
+                const promptGen = await fetch(`https://text.pollinations.ai/${encodeURIComponent("Create detailed 8k English image prompt for: " + text + ". No text, just prompt.")}?model=openai`);
+                const engPrompt = await promptGen.text();
+                // ШАГ 2: РИСУНОК FLUX
+                const imgUrl = `https://pollinations.ai/p/${encodeURIComponent(engPrompt)}?width=1024&height=1024&nologo=true&model=flux&seed=${Date.now()}`;
                 responseDiv.removeChild(loadingMsg);
                 const chat = allChats.find(c => c.id === currentChatId);
                 chat.messages.push({ text: imgUrl, type: 'ai', isImage: true });
-                if (chat.title.includes("Новый")) chat.title = "🎨 " + text.substring(0, 15);
                 saveAndRefresh();
                 return;
             }
 
-            // Обычный умный разговор
-            const url = "https://text.pollinations.ai/" + encodeURIComponent(text + " (Отвечай на языке пользователя, ты - Jarvis)");
-            const res = await fetch(url);
+            const res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(text)}?model=${selectedModel}&system=Ты QIRAI Premium, гениальный ИИ Нурилло. Отвечай на его языке.`);
             const aiText = await res.text();
-            
             responseDiv.removeChild(loadingMsg);
-            
             if (aiText) {
                 const chat = allChats.find(c => c.id === currentChatId);
-                chat.messages.push({ text: aiText, type: 'ai', isImage: false });
+                chat.messages.push({ text: aiText, type: 'ai' });
                 if (chat.title.includes("Новый")) chat.title = text.substring(0, 20);
                 saveAndRefresh();
-                
-                // Озвучка
-                window.speechSynthesis.speak(new SpeechSynthesisUtterance(aiText));
             }
-        } catch (e) {
-            if (loadingMsg.parentNode) responseDiv.removeChild(loadingMsg);
-            showOnScreen("Сэр, возникли проблемы со связью. Попробуйте еще раз!", "ai");
-        }
+        } catch (e) { responseDiv.removeChild(loadingMsg); }
     }
 
     function handleSend() {
-        if (!currentChatId) createNewChat();
         const val = userInput.value;
         if (val.trim() !== "") {
+            if (!currentChatId) createNewChat();
             const chat = allChats.find(c => c.id === currentChatId);
-            chat.messages.push({ text: val, type: 'user', isImage: false });
+            chat.messages.push({ text: val, type: 'user' });
             userInput.value = "";
             saveAndRefresh();
             askAI(val);
         }
     }
-
     sendBtn.onclick = handleSend;
     newChatBtn.onclick = createNewChat;
+    document.getElementById('clearBtn').onclick = () => { localStorage.clear(); location.reload(); };
     userInput.onkeypress = (e) => { if (e.key === 'Enter') handleSend(); };
-
-    if (allChats.length === 0) createNewChat();
-    else { renderSidebar(); renderMessages(); }
-});
-
-const mobileBtn = document.getElementById('mobileMenuBtn');
-const historySidebar = document.getElementById('historyPanel');
-
-if(mobileBtn) {
-    mobileBtn.onclick = (e) => {
-        e.stopPropagation();
-        historySidebar.classList.toggle('mobile-open');
-    };
-}
-document.querySelector('.chat-area').addEventListener('click', () => {
-    historySidebar.classList.remove('mobile-open');
+    if (allChats.length === 0) createNewChat(); else saveAndRefresh();
+    document.getElementById('mobileMenuBtn').onclick = (e) => { e.stopPropagation(); document.getElementById('sidebar').classList.toggle('open'); };
 });

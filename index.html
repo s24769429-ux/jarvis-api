@@ -3,37 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jarvis </title>
+    <title>QIRAI Premium</title>
     <link rel="stylesheet" href="style.css">
-<link rel="shortcut icon" href="/logo.png">
+    <link rel="icon" type="image/png" href="https://s24769429-ux.github.io/jarvis-api/logo.png">
+</head>
 <body>
-  <div class="f">
-    <div class="yes" id="historyPanel">
-        <button id="newChatBtn" class="main-btn">+ Новы чат</button>
-        <div style="display: flex; justify-content: space-between; padding: 10px;">
-            <span style="color: #666; font-size: 0.8rem;">История</span>
-            <span id="clearBtn" style="color: #ff4444; font-size: 0.8rem; cursor: pointer;">удалить всё</span>
-        </div>
-        <div id="chatsList"></div>
-    </div>
+    <div class="app-wrapper">
+        <aside class="sidebar" id="sidebar">
+            <button id="newChatBtn" class="new-chat-btn">+ Новы чат</button>
+            <div class="sidebar-header">
+                <span>ИСТОРИЯ</span>
+                <span id="clearBtn" style="color:red; cursor:pointer;">очистить</span>
+            </div>
+            <div id="chatsList"></div>
+        </aside>
 
-  <div class="chat-area">
-  <button id="mobileMenuBtn" style="display:none; position:fixed; top:10px; left:10px; z-index:1001; background:#0066cc; color:white; border:none; border-radius:5px; padding:5px 10px;">☰ История</button>
-  
-  <div class="story">
-    <img src="logo.png" alt="AI Logo" class="logo" id="logoImg">
-  </div>
-  ...
+        <main class="chat-section">
+            <button id="mobileMenuBtn">☰ Меню</button>
+            <div class="chat-header">
+                <img src="https://s24769429-ux.github.io/jarvis-api/logo.png" class="main-logo">
+                <div class="premium-label">QIRAI PREMIUM</div>
+            </div>
 
-    <input type="file" id="fileInput" style="display:none" accept="image/*">
-    <button id="attachBtn" style="position: static; background: none; border: none; font-size: 1.5rem; cursor: pointer; width: 45px; color: #fff;">[+]</button>
-    
-    <input type="text" id="userInput" class="input" placeholder="Напиши гению или скинь фото..." autocomplete="off">
-    <img src="голос.png" alt="Mic" id="micIcon" height="40px">
-    <button id="sendBtn">Send</button>
-</div>
+            <div id="response" class="messages-container"></div>
+
+            <div class="input-container">
+                <!-- Меню выбора модели -->
+                <div class="model-popup" id="modelPopup">
+                    <div class="popup-item active" data-model="openai" data-name="Авто" data-icon="🚀">
+                        <span>🚀</span> <b>Авто</b>
+                    </div>
+                    <div class="popup-item" data-model="llama" data-name="Быстро" data-icon="⚡">
+                        <span>⚡</span> <b>Быстро</b>
+                    </div>
+                    <div class="popup-item" data-model="mistral" data-name="Эксперт" data-icon="💡">
+                        <span>💡</span> <b>Эксперт</b>
+                    </div>
+                </div>
+
+                <div class="input-wrapper">
+                    <input type="file" id="fileInput" style="display:none" accept="image/*">
+                    <button id="modelToggle" type="button" class="mode-btn">🚀 Авто</button>
+                    <button id="attachBtn" type="button" class="gallery-btn">🖼️</button>
+                    <input type="text" id="userInput" placeholder="Напиши QIRAI..." autocomplete="off">
+                    <button id="sendBtn" class="send-btn">SEND</button>
+                </div>
+            </div>
+        </main>
     </div>
-  </div>
-  <script src="home.js"></script>
+    <script src="home.js"></script>
 </body>
 </html>
