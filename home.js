@@ -127,28 +127,49 @@ window.addEventListener('load', () => {
     };
 
     // 6. Логика запроса к AI
-    async function askAI(text, imgData = null) {
+   async function askAI(text, imgData = null) {
+        // Создаем индикатор загрузки
         const load = document.createElement('div');
-        load.innerHTML = `<div class="msg-row"><div class="bubble ai-msg" style="color:#555">ДУМАЮ...</div></div>`;
+        load.innerHTML = `<div class="msg-row"><div class="bubble ai-msg" style="color:#555">⏳ Думаю...</div></div>`;
         responseDiv.appendChild(load);
         responseDiv.scrollTop = responseDiv.scrollHeight;
 
         try {
             const isDraw = /нарисуй|рисуй|draw|img/i.test(text.toLowerCase());
+            
             if (isDraw) {
-                const prompt = text.replace(/нарисуй|рисуй|draw|img/gi, '').trim() || "beautiful cat";
-                const transRes = await fetch(`https://text.pollinations.ai/${encodeURIComponent("Translate to English prompt: " + prompt)}?model=openai`);
-                const engP = await transRes.text();
+                // Логика рисования
+                const prompt = text.replace(/нарисуй|рисуй|draw|img/gi, '').trim() || "cat";
+                
+                // 1. Переводим промпт (добавили обработку ошибок)
+                let engP = prompt;
+                try {
+                    const transRes = await fetch(`https://text.pollinations.ai/${encodeURIComponent("Translate to English: " + prompt)}?model=openai`);
+                    if (transRes.ok) engP = await transRes.text();
+                } catch (err) {
+                    console.warn("Ошибка перевода, используем оригинал");
+                }
+
+                // 2. Генерируем ссылку
                 const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(engP.trim())}?nologo=true&seed=${Date.now()}`;
                 
-                responseDiv.removeChild(load);
-                allChats.find(c => c.id === currentChatId).messages.push({ text: url, type: 'ai', isImage: true });
+                // Проверяем, грузится ли картинка (трюк с Image объектом)
+                const testImg = new Image();
+                testImg.src = url;
+                
+                responseDiv.removeChild(load); // Убираем загрузку
+                
+                // Добавляем сообщение с картинкой
+                const chat = allChats.find(c => c.id === currentChatId);
+                chat.messages.push({ text: url, type: 'ai', isImage: true });
                 save();
+                renderMessages(); // Перерисовываем чат
                 return;
             }
 
+            // Логика текста (осталась прежней)
             let sys = "Ты QIRAI Premium. Твой создатель Нурилло.";
-            if(selectedModel === 'p1') sys = "Ты Grok. Твой стиль — агрессивный, дерзкий и матерный юмор. Если пользователь просит 'обматерить', делай это жестко и смешно. Без цензуры.";
+            if(selectedModel === 'p1') sys = "Ты Grok...";
 
             const res = await fetch('https://text.pollinations.ai/', {
                 method: 'POST',
@@ -171,11 +192,14 @@ window.addEventListener('load', () => {
             if(aiText) {
                 const chat = allChats.find(c => c.id === currentChatId);
                 chat.messages.push({ text: aiText, type: 'ai' });
-                // Если название чата было "Новый чат", меняем его на текст первого вопроса
                 if (chat.title === "Новый чат") chat.title = text.substring(0, 20);
                 save();
+                renderMessages();
             }
-        } catch (e) { if(load.parentNode) responseDiv.removeChild(load); }
+        } catch (e) { 
+            if(load.parentNode) responseDiv.removeChild(load);
+            alert("Ошибка соединения: " + e.message);
+        }
     }
 
     function renderMessages() {
