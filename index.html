@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QIRAI Premium</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="https://s24769429-ux.github.io/jarvis-api/logo.png">
 </head>
 <body>
     <div class="app-wrapper">
         <aside class="sidebar" id="sidebar">
-            <button id="newChatBtn" class="new-chat-btn">+ Новы чат</button>
+            <button id="newChatBtn" class="new-chat-btn">+ Новый чат</button>
             <div class="sidebar-header">
                 <span>ИСТОРИЯ</span>
                 <span id="clearBtn" style="color:red; cursor:pointer;">очистить</span>
@@ -18,34 +17,32 @@
             <div id="chatsList"></div>
         </aside>
 
-        <main class="chat-section">
+        <main class="chat-main">
             <button id="mobileMenuBtn">☰ Меню</button>
-            <div class="chat-header">
+            <header class="chat-header">
                 <img src="https://s24769429-ux.github.io/jarvis-api/logo.png" class="main-logo">
-                <div class="premium-label">QIRAI PREMIUM</div>
-            </div>
+                <div class="premium-badge">QIRAI PREMIUM</div>
+            </header>
 
-            <div id="response" class="messages-container"></div>
+            <div id="response"></div>
 
             <div class="input-container">
-                <!-- Меню выбора модели -->
+                <div class="preview-box" id="imagePreviewContainer">
+                    <img id="imagePreview" src="">
+                    <span id="removePreview">×</span>
+                </div>
+
                 <div class="model-popup" id="modelPopup">
-                    <div class="popup-item active" data-model="openai" data-name="Авто" data-icon="🚀">
-                        <span>🚀</span> <b>Авто</b>
-                    </div>
-                    <div class="popup-item" data-model="llama" data-name="Быстро" data-icon="⚡">
-                        <span>⚡</span> <b>Быстро</b>
-                    </div>
-                    <div class="popup-item" data-model="mistral" data-name="Эксперт" data-icon="💡">
-                        <span>💡</span> <b>Эксперт</b>
-                    </div>
+                    <div class="popup-item active" data-model="openai" data-name="Авто">🚀 Автоматический</div>
+                    <div class="popup-item" data-model="p1" data-name="Grok">🐦 Grok-2 (Smart)</div>
+                    <div class="popup-item" data-model="llama" data-name="Быстро">⚡ Быстрый (Llama)</div>
                 </div>
 
                 <div class="input-wrapper">
                     <input type="file" id="fileInput" style="display:none" accept="image/*">
                     <button id="modelToggle" type="button" class="mode-btn">🚀 Авто</button>
-                    <button id="attachBtn" type="button" class="gallery-btn">🖼️</button>
-                    <input type="text" id="userInput" placeholder="Напиши QIRAI..." autocomplete="off">
+                    <button id="attachBtn" type="button" class="mode-btn" style="color:#0066cc;">[+]</button>
+                    <textarea id="userInput" placeholder="Спросите QIRAI Premium..." rows="1"></textarea>
                     <button id="sendBtn" class="send-btn">SEND</button>
                 </div>
             </div>
