@@ -83,7 +83,7 @@ window.addEventListener('load', () => {
     };
 
     // 5. Отрисовка сообщений
-    function showOnScreen(text, type, isImage = false) {
+ function showOnScreen(text, type, isImage = false) {
         if (!text) return;
         const row = document.createElement('div');
         row.className = "msg-row";
@@ -92,22 +92,42 @@ window.addEventListener('load', () => {
         
         let header = `<div class="msg-tools"><span>${type === 'user' ? 'ВЫ' : 'QIRAI PREMIUM'}</span>`;
         if(type === 'ai') {
-            // Исправленная кодировка для кнопки копирования
             header += `<span class="icon-btn" onclick="copyText(this)">📄 КОПИРОВАТЬ</span>`;
         }
         header += `</div>`;
 
-        // Скрытый блок для хранения чистого текста (чтобы копировать без проблем)
-        const contentHtml = isImage 
-            ? `<img src="${text}" class="chat-img"><div class="img-actions"><button class="dl-btn" onclick="downloadImg('${text}')">📥 СКАЧАТЬ</button></div>`
-            : `<span>${text.replace(/\n/g, '<br>')}</span><div class="raw-text" style="display:none;">${text}</div>`;
+        let contentHtml = '';
+
+        if (isImage) {
+            contentHtml = `<img src="${text}" class="chat-img"><div class="img-actions"><button class="dl-btn" onclick="downloadImg('${text}')">📥 СКАЧАТЬ</button></div>`;
+        } else {
+            // 1. Сначала обрабатываем Markdown (жирный текст, заголовки)
+            // Используем библиотеку marked, если она загрузилась, иначе просто текст
+            let formattedText = (typeof marked !== 'undefined') ? marked.parse(text) : text;
+
+            // 2. Обрабатываем математику (LaTeX)
+            if (typeof katex !== 'undefined') {
+                // Заменяем блоки \[ ... \] на красивые формулы
+                formattedText = formattedText.replace(/\\\[(.*?)\\\]/gs, (match, equation) => {
+                    try { return katex.renderToString(equation, { displayMode: true }); }
+                    catch(e) { return match; }
+                });
+                // Заменяем строчные блоки \( ... \)
+                formattedText = formattedText.replace(/\\\((.*?)\\\)/gs, (match, equation) => {
+                    try { return katex.renderToString(equation, { displayMode: false }); }
+                    catch(e) { return match; }
+                });
+            }
+
+            // Вставляем отформатированный текст + скрытый оригинал для копирования
+            contentHtml = `<div class="msg-content">${formattedText}</div><div class="raw-text" style="display:none;">${text}</div>`;
+        }
 
         m.innerHTML = header + contentHtml;
         row.appendChild(m);
         responseDiv.appendChild(row);
         responseDiv.scrollTop = responseDiv.scrollHeight;
     }
-
     // Улучшенная функция копирования
     window.copyText = (btn) => { 
         const bubble = btn.closest('.bubble');

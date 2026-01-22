@@ -68,4 +68,57 @@ body, html { background: #000; color: #fff; font-family: 'Segoe UI', Arial, sans
 
 /* МОБИЛКА */
 #mobileMenuBtn { display: none; position: absolute; top: 15px; left: 15px; z-index: 1100; background: #0066cc; border: none; color: #fff; padding: 8px 15px; border-radius: 10px; }
-@media (max-width: 768px) { #mobileMenuBtn { display: block; } .sidebar { position: fixed; left: -260px; top: 0; height: 100%; width: 260px; } .sidebar.open { left: 0; } }
+/* --- НАСТРОЙКИ ДЛЯ ПК (Обычный вид) --- */
+
+/* Скрываем иконку на компьютере, показываем только текст */
+.send-icon {
+    display: none;
+}
+
+
+/* --- НАСТРОЙКИ ДЛЯ ТЕЛЕФОНА (Мобильный вид) --- */
+@media (max-width: 768px) {
+    
+    /* Делаем кнопку круглой */
+    .send-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* СКРЫВАЕМ текст "SEND" */
+    .btnText {
+        display: none;
+    }
+
+    /* ПОКАЗЫВАЕМ иконку */
+    .send-icon {
+        display: block;      /* Делаем видимой */
+        fill: #000;          /* Красим стрелку в черный цвет */
+        width: 24px;         /* Размер иконки */
+        height: 24px;
+        margin-left: 4px;    /* Немного сдвигаем вправо для красоты */
+    }
+}
+/* Делаем математические формулы белыми */
+.katex {
+    font-size: 1.1em;
+    color: #fff !important;
+}
+
+/* Убираем лишние отступы у текста */
+.msg-content p {
+    margin: 5px 0;
+}
+
+/* Стили для заголовков (те самые ####) */
+.msg-content h1, .msg-content h2, .msg-content h3, .msg-content h4 {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: #ffd700; /* Золотой цвет для заголовков */
+}

@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QIRAI Premium</title>
+    <title>Intelix</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -43,7 +47,13 @@
                     <button id="modelToggle" type="button" class="mode-btn">🚀 Авто</button>
                     <button id="attachBtn" type="button" class="mode-btn" style="color:#0066cc;">[+]</button>
                     <textarea id="userInput" placeholder="Спросите QIRAI Premium..." rows="1"></textarea>
-                    <button id="sendBtn" class="send-btn">SEND</button>
+   <button id="sendBtn" class="send-btn">
+    <p class="btnText">SEND</p>
+    
+    <svg class="send-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+        <path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/>
+    </svg>
+</button>
                 </div>
             </div>
         </main>
