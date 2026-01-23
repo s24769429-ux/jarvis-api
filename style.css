@@ -246,3 +246,53 @@ body, html { background: #000; color: #fff; font-family: 'Segoe UI', Arial, sans
     background: #e6c200;
     transform: scale(1.02);
 }
+/* --- ПАНЕЛЬ ДЕЙСТВИЙ (КАК У GROK) --- */
+.msg-actions-bar {
+    display: flex;
+    gap: 15px; /* Расстояние между кнопками */
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #222; /* Тонкая линия сверху */
+    justify-content: flex-start;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555; /* Цвет иконок в покое */
+    transition: 0.2s;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn:hover {
+    color: #ffd700; /* Золотой цвет при наведении */
+    transform: scale(1.1); /* Легкое увеличение */
+}
+
+.action-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+
+
+.user-msg .msg-actions-bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    justify-content: flex-end; 
+}
+
+
+.user-msg .action-btn {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+
+.user-msg .action-btn:hover {
+    color: #ffffff;
+    transform: scale(1.1);
+}
