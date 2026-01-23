@@ -306,101 +306,21 @@ body, html { background: #000; color: #fff; font-family: 'Segoe UI', Arial, sans
     transform: scale(1.1);
 }
 
-/* --- MOBIL VERSIYA (Telefonda chiroyli ko'rinish uchun) --- */
 @media (max-width: 768px) {
     
-    /* 1. Menyu tugmasini (Gamburger) chiroyli qilamiz */
-    #mobileMenuBtn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed; /* Ekranda qotib turadi */
-        top: 15px;
-        left: 15px;
-        z-index: 2000;
-        
-        background: rgba(10, 10, 10, 0.7); /* Yarim shaffof qora */
-        color: #ffd700; /* Oltin rang */
-        border: 1px solid rgba(255, 215, 0, 0.3); /* Oltin hoshiya */
-        border-radius: 12px;
-        padding: 8px 12px;
-        backdrop-filter: blur(8px); /* Orqa fonni xiralashtirish */
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        transition: 0.3s;
-    }
+    /* ... (ваш код для кнопок и сайдбара оставьте как есть) ... */
 
-    #mobileMenuBtn:active {
-        transform: scale(0.95); /* Bosganda kichrayish effekti */
-    }
-
-    /* 2. Yon panel (Sidebar) dizayni */
-    .sidebar { 
-        position: fixed;
-        left: -100%; /* Ekranda tashqarida yashirinadi */
-        top: 0; 
-        height: 100%; 
-        width: 280px;    
-        background: #0a0a0a;
-        transition: cubic-bezier(0.4, 0, 0.2, 1) 0.4s; /* Yumshoq animatsiya */
-        z-index: 2001; /* Hamma narsadan tepada */
-        border-right: 1px solid #333;
-        box-shadow: 10px 0 50px rgba(0,0,0,0.8); /* Katta soya */
-        padding-top: 60px; /* Menyu tugmasi uchun joy */
-    }
-    
-    .sidebar.open { 
-        left: 0; /* Ekranga chiqadi */
-    }
-
-    /* 3. Input (Yozish joyi)ni to'g'irlash */
-    .input-container {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 95%; /* Telefondagi kenglik */
-        z-index: 1005;
-    }
-
-    .input-wrapper {
-        border-radius: 25px;
-        padding: 8px 15px;
-        background: rgba(20, 20, 20, 0.95);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    /* 4. Jo'natish tugmasi (Dumaloq strelka) */
-    .send-btn {
-        width: 42px;      
-        height: 42px;
-        border-radius: 50%;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #ffd700;
-        box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-    }
-
-    .btnText { display: none; } /* "SEND" yozuvini yashiramiz */
-
-    .send-icon {
-        display: block;
-        fill: #000;
-        width: 20px;
-        height: 20px;
-        margin-left: 2px; /* Vizual markazlash */
-    }
-
-    /* 5. Asosiy chat oynasi */
+    /* ИСПРАВЛЕНИЕ: Увеличиваем отступ сверху */
     #response {
-        padding: 70px 15px 120px !important; /* Tepadan va pastdan joy tashlaymiz */
+        /* Было: 70px 15px 120px */
+        /* Стало: 120px (сверху), 15px (по бокам), 120px (снизу) */
+        padding: 120px 15px 120px !important; 
     }
 
-    /* Header (Logo)ni joylashtirish */
+    /* Дополнительно: добавим фон для шапки, чтобы текст под ней не просвечивал */
     .chat-header {
-        pointer-events: none; /* Bosishga xalaqit bermasligi uchun */
-        padding-top: 15px;
+        background: linear-gradient(to bottom, #000 80%, transparent);
+        height: 100px; /* Фиксируем высоту шапки */
+        padding-top: 10px;
     }
 }
