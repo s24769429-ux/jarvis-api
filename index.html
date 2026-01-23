@@ -11,12 +11,23 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- ЭКРАН ВХОДА (Псевдо-регистрация) -->
+    <div id="login-screen">
+        <div class="login-box">
+            <img src="logo.png" class="login-logo"> <!-- Убедись, что logo.png есть -->
+            <h1>Intelix</h1>
+            <p>Добро пожаловать в будущее</p>
+            
+            <input type="text" id="usernameInput" placeholder="Введите ваше имя..." autocomplete="off">
+            <button id="loginBtn">ВОЙТИ В СИСТЕМУ</button>
+        </div>
+    </div>
     <div class="app-wrapper">
         <aside class="sidebar" id="sidebar">
-            <button id="newChatBtn" class="new-chat-btn">+ Новый чат</button>
+            <button id="newChatBtn" class="new-chat-btn">+ New chat</button>
             <div class="sidebar-header">
-                <span>ИСТОРИЯ</span>
-                <span id="clearBtn" style="color:red; cursor:pointer;">очистить</span>
+                <span>Historiy</span>
+                <span id="clearBtn" style="color:red; cursor:pointer; margin-left: 30px;">Delete</span>
             </div>
             <div id="chatsList"></div>
         </aside>
@@ -25,10 +36,12 @@
             <button id="mobileMenuBtn">☰ Меню</button>
             <header class="chat-header">
                 <img src="https://s24769429-ux.github.io/jarvis-api/logo.png" class="main-logo">
-                <div class="premium-badge">QIRAI PREMIUM</div>
+                <div class="premium-badge">Intelix</div>
             </header>
 
-            <div id="response"></div>
+           <div id="response">
+    <div style="height: 300px; width: 100%; flex-shrink: 0;"></div>
+</div>
 
             <div class="input-container">
                 <div class="preview-box" id="imagePreviewContainer">
@@ -58,6 +71,15 @@
             </div>
         </main>
     </div>
-    <script src="home.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+    <script src="storage.js"></script>
+    <script src="ui.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
 </body>
 </html>
