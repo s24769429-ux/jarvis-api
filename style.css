@@ -159,7 +159,12 @@ body, html { background: #000; color: #fff; font-family: 'Segoe UI', Arial, sans
 
     /* 4. Немного уменьшаем отступы чата */
     #response {
-        padding: 80px 10px 120px; /* Чтобы текст влезал лучше */
+        padding: 80px 10px 120px;
+
+    }
+    .input-wrapper{
+        top: 40px;
+        position: relative;
     }
 }
 /* Делаем математические формулы белыми */
