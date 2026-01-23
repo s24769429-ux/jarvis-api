@@ -115,6 +115,7 @@ body, html { background: #000; color: #fff; font-family: 'Segoe UI', Arial, sans
     /* 1. Показываем кнопку меню */
     #mobileMenuBtn {
         display: block; 
+        margin-top: 20px;
     }
 
     /* 2. Настраиваем Сайдбар (чтобы он прятался и выезжал) */
@@ -164,7 +165,7 @@ body, html { background: #000; color: #fff; font-family: 'Segoe UI', Arial, sans
     }
     .input-wrapper{
         top: 40px;
-        position: relative;
+        position: absolute;
     }
 }
 /* Делаем математические формулы белыми */
