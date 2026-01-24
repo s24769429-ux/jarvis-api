@@ -1,87 +1,109 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intelix</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="logo.png">
 
+    <!-- Библиотеки -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 </head>
 <body>
-    <!-- ЭКРАН ВХОДА (Псевдо-регистрация) -->
+
+    <!-- 1. ЭКРАН ВХОДА -->
     <div id="login-screen">
         <div class="login-box">
-            <img src="logo.png" class="login-logo"> <!-- Убедись, что logo.png есть -->
+            <img src="logo.png" class="login-logo" alt="Logo">
             <h1>Intelix</h1>
             <p>Добро пожаловать в будущее</p>
-            
             <input type="text" id="usernameInput" placeholder="Введите ваше имя..." autocomplete="off">
             <button id="loginBtn">ВОЙТИ В СИСТЕМУ</button>
         </div>
     </div>
+
+    <!-- 2. ОСНОВНОЙ КОНТЕНТ -->
     <div class="app-wrapper">
+        
+        <!-- Сайдбар (Меню истории) -->
         <aside class="sidebar" id="sidebar">
             <button id="newChatBtn" class="new-chat-btn">+ New chat</button>
             <div class="sidebar-header">
-                <span>Historiy</span>
+                <span>History</span>
                 <span id="clearBtn" style="color:red; cursor:pointer; margin-left: 30px;">Delete</span>
             </div>
             <div id="chatsList"></div>
+            
+            <!-- Профиль -->
+            <div id="user-profile" style="display:none; margin-top: auto; padding-top: 20px; border-top: 1px solid #333; text-align: center;">
+                <div style="width: 40px; height: 40px; background: #0066cc; border-radius: 50%; display:inline-flex; align-items:center; justify-content:center; font-weight:bold; font-size:20px;" id="userAvatar">U</div>
+                <div id="userNameDisplay" style="margin-top: 5px; font-weight: bold; color: #ffd700;">User</div>
+                <button id="logoutBtn" style="background: none; border: none; color: #ff4444; font-size: 12px; cursor: pointer; margin-top: 5px;">Выйти</button>
+            </div>
         </aside>
 
+        <!-- Главное окно чата -->
         <main class="chat-main">
+            
+            <!-- КНОПКА ДЛЯ ТЕЛЕФОНА (ВАЖНО!) -->
             <button id="mobileMenuBtn">☰ Меню</button>
+
             <header class="chat-header">
-                <img src="https://s24769429-ux.github.io/jarvis-api/logo.png" class="main-logo">
+                <img src="https://s24769429-ux.github.io/jarvis-api/logo.png" class="main-logo" alt="Logo">
                 <div class="premium-badge">Intelix</div>
             </header>
 
-           <div id="response">
-    <div style="height: 300px; width: 100%; flex-shrink: 0;"></div>
-</div>
+            <!-- Область вывода сообщений -->
+            <div id="response">
+                <!-- Заглушка сверху -->
+                <div style="height: 100px; width: 100%; flex-shrink: 0;"></div>
+            </div>
 
+            <!-- ПОЛЕ ВВОДА (Контейнер) -->
             <div class="input-container">
+                
+                <!-- Превью картинки перед отправкой -->
                 <div class="preview-box" id="imagePreviewContainer">
                     <img id="imagePreview" src="">
                     <span id="removePreview">×</span>
                 </div>
 
+                <!-- Выбор модели (появляется при клике на 🤖 Авто) -->
                 <div class="model-popup" id="modelPopup">
-                    <div class="popup-item active" data-model="openai" data-name="Авто">🚀 Автоматический</div>
-                    <div class="popup-item" data-model="p1" data-name="Grok">🐦 Smart</div>
-                    <div class="popup-item" data-model="llama" data-name="Быстро">⚡ Fast</div>
+                    <div class="popup-item active" data-model="auto">🤖 Авто (Grok-3)</div>
+                    <div class="popup-item" data-model="pro">⚡ Intelix Pro</div>
                 </div>
 
+                <!-- Сама зона ввода -->
                 <div class="input-wrapper">
                     <input type="file" id="fileInput" style="display:none" accept="image/*">
-                    <button id="modelToggle" type="button" class="mode-btn">🚀 Авто</button>
-                    <button id="attachBtn" type="button" class="mode-btn" style="color:#0066cc;">[+]</button>
-                    <textarea id="userInput" placeholder="Спросите QIRAI Premium..." rows="1"></textarea>
-   <button id="sendBtn" class="send-btn">
-    <p class="btnText">SEND</p>
-    
-    <svg class="send-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-        <path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/>
-    </svg>
-</button>
+                    
+                    <div class="left-controls">
+                        <button id="modelToggle" type="button" class="mode-btn">🤖 Авто</button>
+                        <button id="attachBtn" type="button" class="mode-btn" style="color: #0066cc;">[+]</button>
+                    </div>
+
+                    <textarea id="userInput" placeholder="Спросите Intelix..." rows="1"></textarea>
                 </div>
+
+                <!-- Кнопка отправить -->
+                <button id="sendBtn" class="send-btn">
+                    <p class="btnText">SEND</p>
+                    <svg class="send-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                        <path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/>
+                    </svg>
+                </button>
             </div>
         </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-
+    <!-- Скрипты -->
     <script src="storage.js"></script>
     <script src="ui.js"></script>
     <script src="main.js"></script>
-</body>
-</html>
+
 </body>
 </html>

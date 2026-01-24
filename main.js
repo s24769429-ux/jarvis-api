@@ -304,3 +304,20 @@ async function askAI(text, imgData) {
         alert("Error: " + e.message);
     }
 }
+// Ждем загрузки документа
+document.addEventListener('DOMContentLoaded', () => {
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+
+    if (menuBtn && sidebar) {
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Чтобы клик не пробрасывался дальше
+            sidebar.classList.toggle('active');
+        });
+
+        // Закрывать меню при клике на пустое место чата
+        document.querySelector('.chat-main').addEventListener('click', () => {
+            sidebar.classList.remove('active');
+        });
+    }
+});
